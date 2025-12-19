@@ -1,0 +1,48 @@
+[versions]
+paper = "1.21.11-R0.1-SNAPSHOT"
+paper-legacy = "1.20.4-R0.1-SNAPSHOT"
+shadowjar = "9.2.2"
+jetbrains-annotations = "26.0.2"
+auraskills="2.3.9"
+aureliumskills="Beta1.3.23"
+eco="6.70.1"
+ecoskills="3.46.1"
+ecojobs="3.56.1"
+jobsreborn="v5.2.2.3"
+mcmmo="2.2.038"
+mmocore="1.13.1-SNAPSHOT"
+mythiclib="1.7.1-SNAPSHOT"
+
+[libraries]
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+platform-paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+platform-paper-legacy = { module = "io.papermc.paper:paper-api", version.ref = "paper-legacy" }
+hook-auraskills-api = { module = "dev.aurelium:auraskills-api", version.ref = "auraskills" }
+hook-auraskills-bukkit = { module = "dev.aurelium:auraskills-api-bukkit", version.ref = "auraskills" }
+hook-aureliumskills = { module = "com.github.Archy-X:AureliumSkills", version.ref = "aureliumskills" }
+hook-eco = { module = "com.willfp:eco", version.ref = "eco" }
+hook-ecoskills = { module = "com.willfp:EcoSkills", version.ref = "ecoskills" }
+hook-ecojobs = { module = "com.willfp:EcoJobs", version.ref = "ecojobs" }
+hook-jobsreborn = { module = "com.github.Zrips:Jobs", version.ref = "jobsreborn" }
+hook-mcmmo = { module = "com.gmail.nossr50.mcMMO:mcMMO", version.ref = "mcmmo" }
+hook-mmocore-api = { module = "net.Indyuce:MMOCore-API", version.ref = "mmocore" }
+hook-mmocore-libs = { module = "io.lumine:MythicLib-dist", version.ref = "mythiclib" }
+
+[bundles]
+hooks = [
+    "hook-auraskills-api",
+    "hook-auraskills-bukkit",
+    "hook-aureliumskills",
+    "hook-jobsreborn",
+    "hook-mcmmo",
+    "hook-mmocore-api",
+    "hook-mmocore-libs",
+]
+hooks-j21 = [
+    "hook-eco",
+    "hook-ecoskills",
+    "hook-ecojobs",
+]
+
+[plugins]
+shadowjar = { id = "com.gradleup.shadow", version.ref = "shadowjar" }
