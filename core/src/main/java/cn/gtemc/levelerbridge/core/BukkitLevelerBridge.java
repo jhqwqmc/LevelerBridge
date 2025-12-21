@@ -18,7 +18,17 @@ public interface BukkitLevelerBridge extends LevelerBridge<Player> {
      * @return An {@code BukkitLevelerBridge} {@code BukkitBuilder} instance.
      */
     static BukkitBuilder builder() {
-        return new BukkitLevelerBridgeImpl.BukkitBuilderImpl();
+        return new BukkitLevelerBridgeImpl.BukkitBuilderImpl(true);
+    }
+
+    /**
+     * Retrieves a {@code BukkitBuilder} used to construct and configure an {@code BukkitLevelerBridge} instance.
+     *
+     * @param loggingEnabled Whether to enable log printing.
+     * @return An {@code BukkitLevelerBridge} {@code BukkitBuilder} instance.
+     */
+    static BukkitBuilder builder(boolean loggingEnabled) {
+        return new BukkitLevelerBridgeImpl.BukkitBuilderImpl(loggingEnabled);
     }
 
     /**

@@ -83,12 +83,8 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
     final static class BukkitBuilderImpl implements BukkitBuilder {
         private final Map<String, LevelerProvider<Player>> providers;
 
-        BukkitBuilderImpl() {
-            try {
-                this.providers = HookHelper.getSupportedPlugins();
-            } catch (Throwable e) {
-                throw new LevelerBridgeException("Failed to load builtin providers", e);
-            }
+        BukkitBuilderImpl(boolean loggingEnabled) {
+            this.providers = HookHelper.getSupportedPlugins(loggingEnabled);
         }
 
         @Override
