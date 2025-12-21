@@ -7,8 +7,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class MinecraftLevelerProvider implements LevelerProvider<Player> {
     public static final MinecraftLevelerProvider INSTANCE = new MinecraftLevelerProvider();
+    private static final boolean hasPaperMethod;
 
     private MinecraftLevelerProvider() {}
+
+    static {
+        boolean finalHasPaperMethod = false;
+        try {
+            finalHasPaperMethod = Player.class.getDeclaredMethod("getExperiencePointsNeededForNextLevel") != null;
+        } catch (Throwable e) {
+            finalHasPaperMethod = false;
+        }
+        hasPaperMethod = finalHasPaperMethod;
+    }
 
     @Override
     public @NotNull String plugin() {
@@ -42,6 +53,9 @@ public class MinecraftLevelerProvider implements LevelerProvider<Player> {
 
     @Override
     public void setExperience(@NotNull Player player, String target, double experience) {
+        if (!hasPaperMethod) {
+            player.setExp((float) experience); // fallback
+        }
         if (experience < player.getExperiencePointsNeededForNextLevel()) {
             float xpNeededForNextLevel = player.getExperiencePointsNeededForNextLevel();
             float maxProgressThreshold = (xpNeededForNextLevel - 1.0F) / xpNeededForNextLevel;
