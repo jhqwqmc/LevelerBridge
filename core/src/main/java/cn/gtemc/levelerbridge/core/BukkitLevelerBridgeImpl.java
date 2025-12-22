@@ -5,15 +5,18 @@ import cn.gtemc.levelerbridge.api.LevelerProvider;
 import cn.gtemc.levelerbridge.hook.HookHelper;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
     private final Map<String, LevelerProvider<Player>> providers;
+    private final boolean immutable;
 
-    private BukkitLevelerBridgeImpl(Map<String, LevelerProvider<Player>> providers) {
-        this.providers = Collections.unmodifiableMap(providers);
+    private BukkitLevelerBridgeImpl(Map<String, LevelerProvider<Player>> providers, boolean immutable) {
+        this.providers = immutable ? Collections.unmodifiableMap(providers) : providers;
+        this.immutable = immutable;
     }
 
     @Override
@@ -80,11 +83,34 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
         provider.setExperience(player, target, experience);
     }
 
+    @Override
+    public boolean immutable() {
+        return this.immutable;
+    }
+
+    @Override
+    public BukkitLevelerBridge register(LevelerProvider<Player> provider) {
+        if (this.providers.containsKey(provider.plugin())) {
+            throw new LevelerBridgeException("Leveler provider '" + provider.plugin() + "' already registered");
+        }
+        this.providers.put(provider.plugin(), provider);
+        return this;
+    }
+
+    @Override
+    public BukkitLevelerBridge removeById(String id) {
+        this.providers.remove(id);
+        return this;
+    }
+
     final static class BukkitBuilderImpl implements BukkitBuilder {
         private final Map<String, LevelerProvider<Player>> providers;
+        private Consumer<String> onHookSuccess;
+        private BiConsumer<String, Throwable> onHookFailure;
+        private boolean immutable;
 
-        BukkitBuilderImpl(boolean loggingEnabled) {
-            this.providers = HookHelper.getSupportedPlugins(loggingEnabled);
+        BukkitBuilderImpl() {
+            this.providers = new HashMap<>();
         }
 
         @Override
@@ -97,13 +123,38 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
         }
 
         @Override
-        public @Nullable LevelerProvider<Player> removeById(String id) {
-            return this.providers.remove(id);
+        public BukkitBuilder removeById(String id) {
+            this.providers.remove(id);
+            return this;
+        }
+
+        @Override
+        public BukkitBuilder immutable(boolean immutable) {
+            this.immutable = immutable;
+            return this;
+        }
+
+        @Override
+        public BukkitBuilder onHookSuccess(Consumer<String> onSuccess) {
+            this.onHookSuccess = onSuccess;
+            return this;
+        }
+
+        @Override
+        public BukkitBuilder onHookFailure(BiConsumer<String, Throwable> onFailure) {
+            this.onHookFailure = onFailure;
+            return this;
+        }
+
+        @Override
+        public BukkitBuilder detectSupportedPlugins() {
+            this.providers.putAll(HookHelper.getSupportedPlugins(this.onHookSuccess, this.onHookFailure));
+            return this;
         }
 
         @Override
         public BukkitLevelerBridge build() {
-            return new BukkitLevelerBridgeImpl(this.providers);
+            return new BukkitLevelerBridgeImpl(this.providers, this.immutable);
         }
     }
 }

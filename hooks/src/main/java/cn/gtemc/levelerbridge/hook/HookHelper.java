@@ -7,17 +7,16 @@ import cn.gtemc.levelerbridge.api.util.ThrowableRunnable;
 import cn.gtemc.levelerbridge.hook.provider.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public final class HookHelper {
-    private static final Logger log = LoggerFactory.getLogger(HookHelper.class);
-    static Function<Boolean, Map<String, LevelerProvider<Player>>> j21ProvidersGetter;
+    static BiFunction<Consumer<String>, BiConsumer<String, Throwable>, Map<String, LevelerProvider<Player>>> j21ProvidersGetter;
 
     static {
         if (MiscUtils.isRunningOnJava21()) {
@@ -27,36 +26,36 @@ public final class HookHelper {
                 throw new LevelerBridgeException("Failed to load builtin providers", e);
             }
         } else {
-            j21ProvidersGetter = l -> Map.of();
+            j21ProvidersGetter = (s, f) -> Map.of();
         }
     }
 
     private HookHelper() {}
 
-    static void tryHook(ThrowableRunnable runnable, String plugin, boolean loggingEnabled) {
+    static void tryHook(ThrowableRunnable runnable, String plugin, Consumer<String> onSuccess, BiConsumer<String, Throwable> onFailure) {
         if (Bukkit.getPluginManager().getPlugin(plugin) == null) {
             return;
         }
         try {
             runnable.run();
-            if (loggingEnabled) {
-                log.info("[LevelerBridge] {} hooked", plugin);
+            if (onSuccess != null) {
+                onSuccess.accept(plugin);
             }
         } catch (Throwable e) {
-            if (loggingEnabled) {
-                log.warn("[LevelerBridge] Failed to hook {}", plugin, e);
+            if (onFailure != null) {
+                onFailure.accept(plugin, e);
             }
         }
     }
 
-    public static Map<String, LevelerProvider<Player>> getSupportedPlugins(boolean loggingEnabled) {
-        Map<String, LevelerProvider<Player>> providers = new HashMap<>(j21ProvidersGetter.apply(loggingEnabled));
+    public static Map<String, LevelerProvider<Player>> getSupportedPlugins(Consumer<String> onSuccess, BiConsumer<String, Throwable> onFailure) {
+        Map<String, LevelerProvider<Player>> providers = new HashMap<>(j21ProvidersGetter.apply(onSuccess, onFailure));
         MiscUtils.addToMap(MinecraftLevelerProvider.INSTANCE, providers);
-        tryHook(() -> MiscUtils.addToMap(AuraSkillsLevelerProvider.INSTANCE, providers), "AuraSkills", loggingEnabled);
-        tryHook(() -> MiscUtils.addToMap(AureliumSkillsLevelerProvider.INSTANCE, providers), "AureliumSkills", loggingEnabled);
-        tryHook(() -> MiscUtils.addToMap(JobsRebornLevelerProvider.INSTANCE, providers), "Jobs", loggingEnabled);
-        tryHook(() -> MiscUtils.addToMap(McMMOLevelerProvider.INSTANCE, providers), "McMMO", loggingEnabled);
-        tryHook(() -> MiscUtils.addToMap(MMOCoreLevelerProvider.INSTANCE, providers), "MMOCore", loggingEnabled);
+        tryHook(() -> MiscUtils.addToMap(AuraSkillsLevelerProvider.INSTANCE, providers), "AuraSkills", onSuccess, onFailure);
+        tryHook(() -> MiscUtils.addToMap(AureliumSkillsLevelerProvider.INSTANCE, providers), "AureliumSkills", onSuccess, onFailure);
+        tryHook(() -> MiscUtils.addToMap(JobsRebornLevelerProvider.INSTANCE, providers), "Jobs", onSuccess, onFailure);
+        tryHook(() -> MiscUtils.addToMap(McMMOLevelerProvider.INSTANCE, providers), "McMMO", onSuccess, onFailure);
+        tryHook(() -> MiscUtils.addToMap(MMOCoreLevelerProvider.INSTANCE, providers), "MMOCore", onSuccess, onFailure);
         return providers;
     }
 }

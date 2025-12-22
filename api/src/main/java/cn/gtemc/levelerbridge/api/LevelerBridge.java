@@ -5,6 +5,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * LevelerBridge is a unified leveling bridging interface used to manage player levels and experience across different plugins.
@@ -91,6 +93,29 @@ public interface LevelerBridge<P> {
     void setExperience(@NotNull String plugin, @NotNull P player, String target, double experience);
 
     /**
+     * Determines whether the LevelerBridge is immutable.
+     *
+     * @return Whether the LevelerBridge is immutable.
+     */
+    boolean immutable();
+
+    /**
+     * Registers a {@link LevelerProvider} into the LevelerBridge.
+     *
+     * @param provider The leveler provider to register.
+     * @return The current instance, supporting method chaining.
+     */
+    LevelerBridge<P> register(LevelerProvider<P> provider);
+
+    /**
+     * Removes a registered provider based on the plugin name.
+     *
+     * @param id The lower-case name of the plugin.
+     * @return The current instance, supporting method chaining.
+     */
+    LevelerBridge<P> removeById(String id);
+
+    /**
      * Interface for building and configuring {@link LevelerBridge} instances.
      * <p>
      * All available built-in leveler providers are automatically loaded upon creation.
@@ -112,9 +137,40 @@ public interface LevelerBridge<P> {
          * Removes a registered provider based on the plugin name.
          *
          * @param id The lower-case name of the plugin.
-         * @return The removed provider, or null if it did not exist.
+         * @return The current builder instance, supporting method chaining.
          */
-        @Nullable LevelerProvider<P> removeById(String id);
+        Builder<P> removeById(String id);
+
+        /**
+         * Sets whether the LevelerBridge is immutable.
+         *
+         * @param immutable Whether the LevelerBridge is immutable.
+         * @return The current builder instance, supporting method chaining.
+         */
+        Builder<P> immutable(boolean immutable);
+
+        /**
+         * Sets the action to perform when a plugin is successfully hooked.
+         *
+         * @param onSuccess onSuccess a consumer receiving the name of the hooked plugin.
+         * @return The current builder instance, supporting method chaining.
+         */
+        Builder<P> onHookSuccess(Consumer<String> onSuccess);
+
+        /**
+         * Sets the action to perform when a hook attempt fails.
+         *
+         * @param onFailure onFailure a bi-consumer receiving the plugin name and the error cause.
+         * @return The current builder instance, supporting method chaining.
+         */
+        Builder<P> onHookFailure(BiConsumer<String, Throwable> onFailure);
+
+        /**
+         * Detects and registers all supported plugins.
+         *
+         * @return The current builder instance, supporting method chaining.
+         */
+        Builder<P> detectSupportedPlugins();
 
         /**
          * Builds and returns an immutable {@link LevelerBridge} instance.

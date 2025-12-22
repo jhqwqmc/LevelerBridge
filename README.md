@@ -21,7 +21,7 @@ repositories {
 ```
 ```kts
 dependencies {
-    implementation("cn.gtemc:levelerbridge:1.0.2")
+    implementation("cn.gtemc:levelerbridge:1.0.3")
 }
 ```
 
@@ -29,7 +29,9 @@ dependencies {
 
 ```java
 BukkitLevelerBridge levelerBridge = BukkitLevelerBridge.builder()
-        .register(new CustomLevelerProvider())
+        .onHookSuccess(p -> System.out.println("Hooked " + p))
+        .onHookFailure((p, e) -> System.out.println("Failed to hook " + p + "cause: " + e))
+        .detectSupportedPlugins()
         .build();
 
 int level = levelerBridge.getLevel("pluginname", player, "levelname");

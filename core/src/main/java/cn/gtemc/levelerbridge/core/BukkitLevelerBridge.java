@@ -3,7 +3,9 @@ package cn.gtemc.levelerbridge.core;
 import cn.gtemc.levelerbridge.api.LevelerBridge;
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * BukkitLevelerBridge is a unified leveling bridging interface for the Bukkit platform.
@@ -18,18 +20,24 @@ public interface BukkitLevelerBridge extends LevelerBridge<Player> {
      * @return An {@code BukkitLevelerBridge} {@code BukkitBuilder} instance.
      */
     static BukkitBuilder builder() {
-        return new BukkitLevelerBridgeImpl.BukkitBuilderImpl(true);
+        return new BukkitLevelerBridgeImpl.BukkitBuilderImpl();
     }
 
     /**
-     * Retrieves a {@code BukkitBuilder} used to construct and configure an {@code BukkitLevelerBridge} instance.
+     * Registers a {@link LevelerProvider} into the LevelerBridge.
      *
-     * @param loggingEnabled Whether to enable log printing.
-     * @return An {@code BukkitLevelerBridge} {@code BukkitBuilder} instance.
+     * @param provider The leveler provider to register.
+     * @return The current instance, supporting method chaining.
      */
-    static BukkitBuilder builder(boolean loggingEnabled) {
-        return new BukkitLevelerBridgeImpl.BukkitBuilderImpl(loggingEnabled);
-    }
+    BukkitLevelerBridge register(LevelerProvider<Player> provider);
+
+    /**
+     * Removes a registered provider based on the plugin name.
+     *
+     * @param id The lower-case name of the plugin.
+     * @return The current instance, supporting method chaining.
+     */
+    BukkitLevelerBridge removeById(String id);
 
     /**
      * Interface for building and configuring {@link BukkitLevelerBridge} instances.
@@ -51,9 +59,40 @@ public interface BukkitLevelerBridge extends LevelerBridge<Player> {
          * Removes a registered provider based on the plugin name.
          *
          * @param id The lower-case name of the plugin.
-         * @return The removed provider, or null if it did not exist.
+         * @return The current builder instance, supporting method chaining.
          */
-        @Nullable LevelerProvider<Player> removeById(String id);
+        BukkitBuilder removeById(String id);
+
+        /**
+         * Sets whether the LevelerBridge is immutable.
+         *
+         * @param immutable Whether the LevelerBridge is immutable.
+         * @return The current builder instance, supporting method chaining.
+         */
+        BukkitBuilder immutable(boolean immutable);
+
+        /**
+         * Sets the action to perform when a plugin is successfully hooked.
+         *
+         * @param onSuccess onSuccess a consumer receiving the name of the hooked plugin.
+         * @return The current builder instance, supporting method chaining.
+         */
+        BukkitBuilder onHookSuccess(Consumer<String> onSuccess);
+
+        /**
+         * Sets the action to perform when a hook attempt fails.
+         *
+         * @param onFailure onFailure a bi-consumer receiving the plugin name and the error cause.
+         * @return The current builder instance, supporting method chaining.
+         */
+        BukkitBuilder onHookFailure(BiConsumer<String, Throwable> onFailure);
+
+        /**
+         * Detects and registers all supported plugins.
+         *
+         * @return The current builder instance, supporting method chaining.
+         */
+        BukkitBuilder detectSupportedPlugins();
 
         /**
          * Builds and returns an immutable {@link BukkitLevelerBridge} instance.
