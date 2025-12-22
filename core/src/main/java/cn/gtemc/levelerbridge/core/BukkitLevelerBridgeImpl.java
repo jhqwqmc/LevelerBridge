@@ -4,11 +4,13 @@ import cn.gtemc.levelerbridge.api.LevelerBridgeException;
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import cn.gtemc.levelerbridge.hook.HookHelper;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
     private final Map<String, LevelerProvider<Player>> providers;
@@ -148,8 +150,13 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
 
         @Override
         public BukkitBuilder detectSupportedPlugins() {
-            this.providers.putAll(HookHelper.getSupportedPlugins(this.onHookSuccess, this.onHookFailure));
-            return this;
+            return detectSupportedPlugins(plugin -> true);
+        }
+
+        @Override
+        public BukkitBuilder detectSupportedPlugins(@NotNull Predicate<Plugin> filter) {
+            this.providers.putAll(HookHelper.getSupportedPlugins(this.onHookSuccess, this.onHookFailure, filter));
+            return null;
         }
 
         @Override

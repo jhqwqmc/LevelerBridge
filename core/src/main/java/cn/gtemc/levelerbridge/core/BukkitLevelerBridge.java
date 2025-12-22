@@ -3,9 +3,12 @@ package cn.gtemc.levelerbridge.core;
 import cn.gtemc.levelerbridge.api.LevelerBridge;
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * BukkitLevelerBridge is a unified leveling bridging interface for the Bukkit platform.
@@ -93,6 +96,14 @@ public interface BukkitLevelerBridge extends LevelerBridge<Player> {
          * @return The current builder instance, supporting method chaining.
          */
         BukkitBuilder detectSupportedPlugins();
+
+        /**
+         * Detects and registers all supported plugins.
+         *
+         * @param filter The predicate to filter plugins.
+         * @return The current builder instance, supporting method chaining.
+         */
+        BukkitBuilder detectSupportedPlugins(@NotNull Predicate<Plugin> filter);
 
         /**
          * Builds and returns an immutable {@link BukkitLevelerBridge} instance.
