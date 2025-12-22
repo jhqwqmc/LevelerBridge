@@ -156,7 +156,7 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
         @Override
         public BukkitBuilder detectSupportedPlugins(@NotNull Predicate<Plugin> filter) {
             this.providers.putAll(HookHelper.getSupportedPlugins(this.onHookSuccess, this.onHookFailure, filter));
-            return null;
+            return this;
         }
 
         @Override
