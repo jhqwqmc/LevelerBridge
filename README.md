@@ -21,7 +21,7 @@ repositories {
 ```
 ```kts
 dependencies {
-    implementation("cn.gtemc:levelerbridge:1.0.3")
+    implementation("cn.gtemc:levelerbridge:1.0.4")
 }
 ```
 
