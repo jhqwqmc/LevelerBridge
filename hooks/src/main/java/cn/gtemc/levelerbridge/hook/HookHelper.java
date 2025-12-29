@@ -64,7 +64,7 @@ public final class HookHelper {
         tryHook(() -> MiscUtils.addToMap(AuraSkillsLevelerProvider.INSTANCE, providers), "AuraSkills", onSuccess, onFailure, filter);
         tryHook(() -> MiscUtils.addToMap(AureliumSkillsLevelerProvider.INSTANCE, providers), "AureliumSkills", onSuccess, onFailure, filter);
         tryHook(() -> MiscUtils.addToMap(JobsRebornLevelerProvider.INSTANCE, providers), "Jobs", onSuccess, onFailure, filter);
-        tryHook(() -> MiscUtils.addToMap(McMMOLevelerProvider.INSTANCE, providers), "McMMO", onSuccess, onFailure, filter);
+        tryHook(() -> MiscUtils.addToMap(McMMOLevelerProvider.INSTANCE, providers), "mcMMO", onSuccess, onFailure, filter);
         tryHook(() -> MiscUtils.addToMap(MMOCoreLevelerProvider.INSTANCE, providers), "MMOCore", onSuccess, onFailure, filter);
         return providers;
     }
