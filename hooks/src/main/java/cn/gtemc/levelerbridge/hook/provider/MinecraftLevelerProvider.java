@@ -1,7 +1,7 @@
 package cn.gtemc.levelerbridge.hook.provider;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
-import cn.gtemc.levelerbridge.api.util.MiscUtils;
+import cn.gtemc.levelerbridge.api.util.Utils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +59,7 @@ public class MinecraftLevelerProvider implements LevelerProvider<Player> {
         if (experience < player.getExperiencePointsNeededForNextLevel()) {
             float xpNeededForNextLevel = player.getExperiencePointsNeededForNextLevel();
             float maxProgressThreshold = (xpNeededForNextLevel - 1.0F) / xpNeededForNextLevel;
-            float experienceProgress = MiscUtils.clamp((float) (experience / xpNeededForNextLevel), 0.0F, maxProgressThreshold);
+            float experienceProgress = Utils.clamp((float) (experience / xpNeededForNextLevel), 0.0F, maxProgressThreshold);
             player.setExp(experienceProgress);
         }
     }

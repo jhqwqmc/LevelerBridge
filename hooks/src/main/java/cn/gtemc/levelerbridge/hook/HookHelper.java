@@ -2,7 +2,7 @@ package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerBridgeException;
 import cn.gtemc.levelerbridge.api.LevelerProvider;
-import cn.gtemc.levelerbridge.api.util.MiscUtils;
+import cn.gtemc.levelerbridge.api.util.Utils;
 import cn.gtemc.levelerbridge.api.util.ThrowableRunnable;
 import cn.gtemc.levelerbridge.hook.provider.*;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ public final class HookHelper {
     static J21ProvidersGetter j21ProvidersGetter;
 
     static {
-        if (MiscUtils.isRunningOnJava21()) {
+        if (Utils.isRunningOnJava21()) {
             try {
                 MethodHandles.lookup().ensureInitialized(Class.forName("cn.gtemc.levelerbridge.hook.J21HookHelper"));
             } catch (ReflectiveOperationException e) {
@@ -60,12 +60,12 @@ public final class HookHelper {
             Consumer<String> onSuccess, BiConsumer<String, Throwable> onFailure, Predicate<Plugin> filter
     ) {
         Map<String, LevelerProvider<Player>> providers = new HashMap<>(j21ProvidersGetter.get(onSuccess, onFailure, filter));
-        MiscUtils.addToMap(MinecraftLevelerProvider.INSTANCE, providers);
-        tryHook(() -> MiscUtils.addToMap(AuraSkillsLevelerProvider.INSTANCE, providers), "AuraSkills", onSuccess, onFailure, filter);
-        tryHook(() -> MiscUtils.addToMap(AureliumSkillsLevelerProvider.INSTANCE, providers), "AureliumSkills", onSuccess, onFailure, filter);
-        tryHook(() -> MiscUtils.addToMap(JobsRebornLevelerProvider.INSTANCE, providers), "Jobs", onSuccess, onFailure, filter);
-        tryHook(() -> MiscUtils.addToMap(McMMOLevelerProvider.INSTANCE, providers), "mcMMO", onSuccess, onFailure, filter);
-        tryHook(() -> MiscUtils.addToMap(MMOCoreLevelerProvider.INSTANCE, providers), "MMOCore", onSuccess, onFailure, filter);
+        Utils.addToMap(MinecraftLevelerProvider.INSTANCE, providers);
+        tryHook(() -> Utils.addToMap(AuraSkillsLevelerProvider.INSTANCE, providers), "AuraSkills", onSuccess, onFailure, filter);
+        tryHook(() -> Utils.addToMap(AureliumSkillsLevelerProvider.INSTANCE, providers), "AureliumSkills", onSuccess, onFailure, filter);
+        tryHook(() -> Utils.addToMap(JobsRebornLevelerProvider.INSTANCE, providers), "Jobs", onSuccess, onFailure, filter);
+        tryHook(() -> Utils.addToMap(McMMOLevelerProvider.INSTANCE, providers), "mcMMO", onSuccess, onFailure, filter);
+        tryHook(() -> Utils.addToMap(MMOCoreLevelerProvider.INSTANCE, providers), "MMOCore", onSuccess, onFailure, filter);
         return providers;
     }
 

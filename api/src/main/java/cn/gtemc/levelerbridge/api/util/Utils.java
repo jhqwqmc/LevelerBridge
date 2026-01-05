@@ -4,9 +4,9 @@ import cn.gtemc.levelerbridge.api.LevelerProvider;
 
 import java.util.Map;
 
-public final class MiscUtils {
+public final class Utils {
 
-    private MiscUtils() {}
+    private Utils() {}
 
     public static boolean isRunningOnJava21() {
         try {

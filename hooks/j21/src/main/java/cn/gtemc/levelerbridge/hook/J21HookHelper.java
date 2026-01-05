@@ -1,7 +1,7 @@
 package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
-import cn.gtemc.levelerbridge.api.util.MiscUtils;
+import cn.gtemc.levelerbridge.api.util.Utils;
 import cn.gtemc.levelerbridge.hook.provider.EcoJobsLevelerProvider;
 import cn.gtemc.levelerbridge.hook.provider.EcoSkillsLevelerProvider;
 import org.bukkit.entity.Player;
@@ -28,8 +28,8 @@ public final class J21HookHelper {
             Consumer<String> onSuccess, BiConsumer<String, Throwable> onFailure, Predicate<Plugin> filter
     ) {
         Map<String, LevelerProvider<Player>> providers = new HashMap<>();
-        tryHook(() -> MiscUtils.addToMap(EcoSkillsLevelerProvider.INSTANCE, providers), "EcoSkills", onSuccess, onFailure, filter);
-        tryHook(() -> MiscUtils.addToMap(EcoJobsLevelerProvider.INSTANCE, providers), "EcoJobs", onSuccess, onFailure, filter);
+        tryHook(() -> Utils.addToMap(EcoSkillsLevelerProvider.INSTANCE, providers), "EcoSkills", onSuccess, onFailure, filter);
+        tryHook(() -> Utils.addToMap(EcoJobsLevelerProvider.INSTANCE, providers), "EcoJobs", onSuccess, onFailure, filter);
         return providers;
     }
 }
