@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import com.willfp.ecojobs.api.EcoJobsAPI;
@@ -7,7 +7,7 @@ import com.willfp.ecojobs.jobs.Jobs;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class EcoJobsLevelerProvider implements LevelerProvider<Player> {
+final class EcoJobsLevelerProvider implements LevelerProvider<Player> {
     public static final EcoJobsLevelerProvider INSTANCE = new EcoJobsLevelerProvider();
 
     private EcoJobsLevelerProvider() {}

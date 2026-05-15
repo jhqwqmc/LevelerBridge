@@ -12,7 +12,7 @@
 
 ## How to use
 
-### Add dependencies to the project
+### Add dependency to the project
 
 ```kts
 repositories {
@@ -21,7 +21,7 @@ repositories {
 ```
 ```kts
 dependencies {
-    implementation("cn.gtemc:levelerbridge:1.0.8")
+    implementation("cn.gtemc:levelerbridge:1.0.9")
 }
 ```
 
@@ -29,9 +29,11 @@ dependencies {
 
 ```java
 BukkitLevelerBridge levelerBridge = BukkitLevelerBridge.builder()
-        .onHookSuccess(p -> System.out.println("Hooked " + p))
-        .onHookFailure((p, e) -> System.out.println("Failed to hook " + p + "cause: " + e))
-        .detectSupportedPlugins()
+        .detectSupportedPlugins(
+                p -> System.out.println("Hooked " + p),
+                (p, e) -> System.err.println("Failed to hook " + p + ", because " + e.getMessage()),
+                null
+        )
         .build();
 
 int level = levelerBridge.getLevel("pluginname", player, "levelname");

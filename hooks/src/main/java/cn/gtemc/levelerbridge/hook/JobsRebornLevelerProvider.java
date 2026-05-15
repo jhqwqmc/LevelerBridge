@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import com.gamingmesh.jobs.Jobs;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class JobsRebornLevelerProvider implements LevelerProvider<Player> {
+final class JobsRebornLevelerProvider implements LevelerProvider<Player> {
     public static final JobsRebornLevelerProvider INSTANCE = new JobsRebornLevelerProvider();
 
     private JobsRebornLevelerProvider() {}

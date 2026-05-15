@@ -6,6 +6,7 @@ import cn.gtemc.levelerbridge.hook.HookHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -107,8 +108,6 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
 
     final static class BukkitBuilderImpl implements BukkitBuilder {
         private final Map<String, LevelerProvider<Player>> providers;
-        private Consumer<String> onHookSuccess;
-        private BiConsumer<String, Throwable> onHookFailure;
         private boolean immutable;
 
         BukkitBuilderImpl() {
@@ -137,25 +136,20 @@ final class BukkitLevelerBridgeImpl implements BukkitLevelerBridge {
         }
 
         @Override
-        public BukkitBuilder onHookSuccess(Consumer<String> onSuccess) {
-            this.onHookSuccess = onSuccess;
-            return this;
-        }
-
-        @Override
-        public BukkitBuilder onHookFailure(BiConsumer<String, Throwable> onFailure) {
-            this.onHookFailure = onFailure;
-            return this;
-        }
-
-        @Override
         public BukkitBuilder detectSupportedPlugins() {
-            return detectSupportedPlugins(plugin -> true);
+            this.providers.putAll(HookHelper.getSupportedPlugins(null, null, null));
+            return this;
         }
 
         @Override
-        public BukkitBuilder detectSupportedPlugins(@NotNull Predicate<Plugin> filter) {
-            this.providers.putAll(HookHelper.getSupportedPlugins(this.onHookSuccess, this.onHookFailure, filter));
+        public BukkitBuilder detectSupportedPlugins(@Nullable Predicate<Plugin> filter) {
+            this.providers.putAll(HookHelper.getSupportedPlugins(null, null, filter));
+            return this;
+        }
+
+        @Override
+        public BukkitBuilder detectSupportedPlugins(@Nullable Consumer<String> onSuccess, @Nullable BiConsumer<String, Throwable> onFailure, @Nullable Predicate<Plugin> filter) {
+            this.providers.putAll(HookHelper.getSupportedPlugins(onSuccess, onFailure, filter));
             return this;
         }
 

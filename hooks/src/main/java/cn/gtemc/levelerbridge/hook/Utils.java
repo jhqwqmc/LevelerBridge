@@ -1,26 +1,12 @@
-package cn.gtemc.levelerbridge.api.util;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 
 import java.util.Map;
 
-public final class Utils {
+final class Utils {
 
     private Utils() {}
-
-    public static boolean isRunningOnJava21() {
-        try {
-            int version = Runtime.version().feature();
-            return version >= 21;
-        } catch (Throwable e) {
-            try {
-                int version = Integer.parseInt(System.getProperty("java.version"));
-                return version >= 21;
-            } catch (Throwable t) {
-                return false;
-            }
-        }
-    }
 
     public static <P> void addToMap(LevelerProvider<P> provider, Map<String, LevelerProvider<P>> map) {
         map.put(provider.plugin(), provider);

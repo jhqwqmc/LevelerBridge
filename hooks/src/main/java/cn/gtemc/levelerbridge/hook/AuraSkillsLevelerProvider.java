@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import dev.aurelium.auraskills.api.AuraSkillsApi;
@@ -7,7 +7,7 @@ import dev.aurelium.auraskills.api.skill.Skill;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class AuraSkillsLevelerProvider implements LevelerProvider<Player> {
+final class AuraSkillsLevelerProvider implements LevelerProvider<Player> {
     public static final AuraSkillsLevelerProvider INSTANCE = new AuraSkillsLevelerProvider();
 
     private AuraSkillsLevelerProvider() {}

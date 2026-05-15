@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import com.willfp.ecoskills.api.EcoSkillsAPI;
@@ -9,7 +9,7 @@ import com.willfp.ecoskills.skills.Skills;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class EcoSkillsLevelerProvider implements LevelerProvider<Player> {
+final class EcoSkillsLevelerProvider implements LevelerProvider<Player> {
     public static final EcoSkillsLevelerProvider INSTANCE = new EcoSkillsLevelerProvider();
 
     private EcoSkillsLevelerProvider() {}

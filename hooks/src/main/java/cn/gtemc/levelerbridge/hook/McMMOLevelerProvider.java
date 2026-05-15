@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import com.gmail.nossr50.api.ExperienceAPI;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class McMMOLevelerProvider implements LevelerProvider<Player> {
+final class McMMOLevelerProvider implements LevelerProvider<Player> {
     public static final McMMOLevelerProvider INSTANCE = new McMMOLevelerProvider();
 
     private McMMOLevelerProvider() {}

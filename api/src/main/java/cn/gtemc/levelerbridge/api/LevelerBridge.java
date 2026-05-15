@@ -1,12 +1,9 @@
 package cn.gtemc.levelerbridge.api;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * LevelerBridge is a unified leveling bridging interface used to manage player levels and experience across different plugins.
@@ -148,22 +145,6 @@ public interface LevelerBridge<P> {
          * @return The current builder instance, supporting method chaining.
          */
         Builder<P> immutable(boolean immutable);
-
-        /**
-         * Sets the action to perform when a plugin is successfully hooked.
-         *
-         * @param onSuccess onSuccess a consumer receiving the name of the hooked plugin.
-         * @return The current builder instance, supporting method chaining.
-         */
-        Builder<P> onHookSuccess(Consumer<String> onSuccess);
-
-        /**
-         * Sets the action to perform when a hook attempt fails.
-         *
-         * @param onFailure onFailure a bi-consumer receiving the plugin name and the error cause.
-         * @return The current builder instance, supporting method chaining.
-         */
-        Builder<P> onHookFailure(BiConsumer<String, Throwable> onFailure);
 
         /**
          * Detects and registers all supported plugins.

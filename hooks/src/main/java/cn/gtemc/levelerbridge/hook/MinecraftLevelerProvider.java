@@ -1,11 +1,10 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
-import cn.gtemc.levelerbridge.api.util.Utils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class MinecraftLevelerProvider implements LevelerProvider<Player> {
+final class MinecraftLevelerProvider implements LevelerProvider<Player> {
     public static final MinecraftLevelerProvider INSTANCE = new MinecraftLevelerProvider();
     private static final boolean hasPaperMethod;
 

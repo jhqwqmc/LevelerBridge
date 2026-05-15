@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import com.archyx.aureliumskills.api.AureliumAPI;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AureliumSkillsLevelerProvider implements LevelerProvider<Player> {
+final class AureliumSkillsLevelerProvider implements LevelerProvider<Player> {
     public static final AureliumSkillsLevelerProvider INSTANCE = new AureliumSkillsLevelerProvider();
 
     private AureliumSkillsLevelerProvider() {}

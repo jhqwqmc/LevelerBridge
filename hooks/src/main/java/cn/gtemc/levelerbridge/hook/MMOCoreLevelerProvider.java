@@ -1,4 +1,4 @@
-package cn.gtemc.levelerbridge.hook.provider;
+package cn.gtemc.levelerbridge.hook;
 
 import cn.gtemc.levelerbridge.api.LevelerProvider;
 import net.Indyuce.mmocore.MMOCore;
@@ -9,7 +9,7 @@ import net.Indyuce.mmocore.experience.Profession;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class MMOCoreLevelerProvider implements LevelerProvider<Player> {
+final class MMOCoreLevelerProvider implements LevelerProvider<Player> {
     public static final MMOCoreLevelerProvider INSTANCE = new MMOCoreLevelerProvider();
 
     private MMOCoreLevelerProvider() {}
