@@ -21,6 +21,7 @@ subprojects {
             languageVersion = JavaLanguageVersion.of(21)
         }
         withSourcesJar()
+        disableAutoTargetJvm()
     }
 
     tasks.withType<JavaCompile> {
@@ -28,16 +29,5 @@ subprojects {
         options.compilerArgs.addAll(listOf("-Xlint:-options"))
         options.release.set(8)
         dependsOn(tasks.clean)
-    }
-
-    val allowed = listOf("compileClasspath", "runtimeClasspath", "testCompileClasspath", "testRuntimeClasspath")
-    plugins.withType<JavaPlugin> {
-        configurations.matching {
-            it.isCanBeResolved && it.name in allowed
-        }.all {
-            attributes {
-                attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, Int.MAX_VALUE)
-            }
-        }
     }
 }
