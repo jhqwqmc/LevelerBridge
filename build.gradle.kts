@@ -26,6 +26,7 @@ subprojects {
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.compilerArgs.addAll(listOf("-Xlint:-options"))
+        options.release.set(8)
         dependsOn(tasks.clean)
     }
 

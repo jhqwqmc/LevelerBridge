@@ -6,10 +6,6 @@ dependencies {
     compileOnly(libs.jetbrains.annotations)
 }
 
-tasks.withType<JavaCompile> {
-    options.release.set(8)
-}
-
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {

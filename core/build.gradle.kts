@@ -13,10 +13,6 @@ artifacts {
     implementation(tasks.shadowJar)
 }
 
-tasks.withType<JavaCompile> {
-    options.release.set(8)
-}
-
 tasks.named<Jar>("sourcesJar") {
     from(project(":api").sourceSets.main.get().allSource)
     from(project(":hooks").sourceSets.main.get().allSource)
